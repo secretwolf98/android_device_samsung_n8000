@@ -24,10 +24,6 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 PRODUCT_COPY_FILES += \
     device/samsung/n8000/rootdir/init.target.rc:root/init.target.rc
 
-# Audio
-PRODUCT_COPY_FILES += \
-    device/samsung/n80xx-common/configs/tiny_hw.xml:system/etc/sound/GT-N8000
-
 # Gps
 PRODUCT_COPY_FILES += \
     device/samsung/n8000/configs/gps.xml:system/etc/gps.xml
@@ -41,10 +37,10 @@ PRODUCT_COPY_FILES += \
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.ril_class=SamsungExynos4RIL \
     mobiledata.interfaces=pdp0,wlan0,gprs,ppp0 \
     ro.ril.hsxpa=1 \
     ro.ril.gprsclass=10
 
 PRODUCT_PACKAGES += \
-    libsecril-client
+	libsecril-client-sap \
+	SamsungServiceMode
