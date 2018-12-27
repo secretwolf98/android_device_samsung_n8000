@@ -22,10 +22,14 @@ on post-fs-data
      # Restorecon
     restorecon_recursive /efs
 
+    write /data/.cid.info 0
+    restorecon /data/.cid.info
+    restorecon /data/ISP_CV
+
 on boot
 
 #cbd
-service cpboot-daemon /sbin/cbd -d -p7
+service cpboot-daemon /system/bin/cbd -d -p7
     class main
     user root
     group radio cache inet misc audio sdcard_rw log sdcard_r
