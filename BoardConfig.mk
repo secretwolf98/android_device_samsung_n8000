@@ -18,7 +18,6 @@
 -include device/samsung/n80xx-common/BoardConfigCommon.mk
 
 # Inline kernel building
-#FIXME NOT READY YET - NEEDS DEFCONFIG
 TARGET_KERNEL_SOURCE := kernel/samsung/smdk4412
 TARGET_KERNEL_CONFIG := lineageos_n8000_defconfig
 
@@ -26,4 +25,4 @@ TARGET_KERNEL_CONFIG := lineageos_n8000_defconfig
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/n8000/bluetooth
 
 # assert
-TARGET_OTA_ASSERT_DEVICE := c0,p4noterf,n8000,GT-N8000
+TARGET_OTA_ASSERT_DEVICE := c0,p4noterf,p4noterfxx,n8000,GT-N8000
