@@ -24,10 +24,6 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 PRODUCT_COPY_FILES += \
     device/samsung/n8000/rootdir/init.target.rc:root/init.target.rc
 
-# Gps
-PRODUCT_COPY_FILES += \
-    device/samsung/n8000/configs/gps.xml:system/etc/gps.xml
-
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
