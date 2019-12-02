@@ -1,0 +1,22 @@
+# Android fstab file.
+# <src>                                 <mnt_point>		    <type>		<mnt_flags and options>		<fs_mgr_flags>
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
+/dev/mmcblk2p3                          /efs			    ext4		noatime,nosuid,nodev,errors=panic	                    wait
+/dev/mmcblk2p9                          /   			    ext4		ro,noatime		                                        wait
+/dev/mmcblk2p12                         /data			    ext4		noatime,nosuid,nodev,noauto_da_alloc,errors=panic		latemount,wait,check,formattable
+/dev/mmcblk2p11                         /misc               emmc		defaults		                                        defaults
+/dev/mmcblk2p7                          /firmware/radio     emmc		ro,uid=1000,gid=0		                                wait
+
+# BOOT -> /dev/mmcblk2p5
+# BOTA0 -> /dev/mmcblk2p1
+# BOTA1 -> /dev/mmcblk2p2
+# CACHE -> /dev/mmcblk2p8 
+# EFS -> /dev/mmcblk2p3
+# HIDDEN -> /dev/mmcblk2p10
+# OTA -> /dev/mmcblk2p11
+# PARAM -> /dev/mmcblk2p4
+# RADIO -> /dev/mmcblk2p7
+# RECOVERY -> /dev/mmcblk2p6
+# SYSTEM -> /dev/mmcblk2p9
+# USERDATA -> /dev/mmcblk2p12

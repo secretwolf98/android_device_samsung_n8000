@@ -14,30 +14,67 @@
 # limitations under the License.
 #
 
-$(call inherit-product, device/samsung/n80xx-common/n80xx-common.mk)
-
 LOCAL_PATH := device/samsung/n8000
 
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+# screen configuration
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := 160dpi
+PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
 
-# Rootdir
-PRODUCT_COPY_FILES += \
-    device/samsung/n8000/rootdir/init.target.rc:root/init.target.rc
+# display setting
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
 
-# These are the hardware-specific features
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/android.software.sip.xml:system/etc/permissions/android.software.sip.xml \
-
-# RIL
 PRODUCT_PROPERTY_OVERRIDES += \
-    mobiledata.interfaces=pdp0,gprs,ppp0,rmnet0,rmnet1 \
-    ro.ril.hsxpa=1 \
-    ro.ril.gprsclass=10
+    ro.sf.lcd_density=160
 
+# graphics
 PRODUCT_PACKAGES += \
-	libsecril-client-sap \
-	SamsungServiceMode
+	android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.allocator@2.0-service \
+    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.composer@2.1-service \
+    android.hardware.graphics.mapper@2.0-impl
+	gralloc.gbm \
+	hwcomposer.drm \
+	libGLES_mesa \
+	libstdc++.vendor \
 
-$(call inherit-product-if-exists, vendor/samsung/n8000/n8000-vendor.mk)
+PRODUCT_PROPERTY_OVERRIDES += \
+	debug.drm.mode.force=1280x800 \
+    gralloc.drm.device=/dev/dri/renderD128 \
+	ro.opengles.version=131072
+
+# FIXME: remove this.
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/prebuilt/libexpat.so:vendor/lib/libexpat.so
+
+# Init
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/fstab.n8000:root/fstab.n8000 \
+    $(LOCAL_PATH)/rootdir/init.target.rc:root/init.target.rc \
+	$(LOCAL_PATH)/recovery/init.recovery.midas.rc:root/init.recovery.midas.rc \
+
+# Add wifi-related packages
+PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond
+PRODUCT_PROPERTY_OVERRIDES += wifi.interface=wlan0 \
+                              wifi.supplicant_scan_interval=15
+
+# Build and run only ART
+PRODUCT_RUNTIMES := runtime_libart_default
+
+# testing this
+PRODUCT_SHIPPING_API_LEVEL := 25
+
+# for testing
+PRODUCT_PACKAGES += ssh sftp scp sshd ssh-keygen sshd_config start-ssh
+
+# Treble
+PRODUCT_PACKAGES += \
+	vndk_package \
+
+DEVICE_MANIFEST_FILE := $(LOCAL_PATH)/manifest.xml
+PRODUCT_CHARACTERISTICS := tablet
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.low_ram=true
