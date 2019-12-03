@@ -1,29 +1,28 @@
-#
-# Copyright (C) 2017 The LineageOS Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/mainline.mk)
 
 LOCAL_PATH := device/samsung/n8000
 
-PRODUCT_RELEASE_NAME := n8000
+PRODUCT_PACKAGES += \
+    Dialer \
+    Launcher3QuickStep \
+    WallpaperPicker \
 
-$(call inherit-product, device/samsung/n8000/n8000.mk)
+PRODUCT_MANUFACTURER := samsung
+PRODUCT_BRAND := android
 
 # screen configuration
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := 160dpi
 PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
+
+# kernel
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+    LOCAL_KERNEL := kernel/samsung/n80xx/zImage-dtb
+else
+    LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+PRODUCT_COPY_FILES +=   $(LOCAL_KERNEL):kernel
 
 # display setting
 TARGET_SCREEN_HEIGHT := 1280
@@ -38,9 +37,10 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-impl \
     android.hardware.graphics.composer@2.1-service \
-    android.hardware.graphics.mapper@2.0-impl
+    android.hardware.graphics.mapper@2.0-impl \
 	gralloc.gbm \
 	hwcomposer.drm \
+    libdrm.exynos \
 	libGLES_mesa \
 	libstdc++.vendor \
 
@@ -49,15 +49,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     gralloc.drm.device=/dev/dri/renderD128 \
 	ro.opengles.version=131072
 
-# FIXME: remove this.
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/prebuilt/libexpat.so:vendor/lib/libexpat.so
-
 # Init
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/fstab.n8000:root/fstab.n8000 \
-    $(LOCAL_PATH)/rootdir/init.target.rc:root/init.target.rc \
-	$(LOCAL_PATH)/recovery/init.recovery.midas.rc:root/init.recovery.midas.rc \
+    $(LOCAL_PATH)/rootdir/init.target.rc:root/init.target.rc
 
 # Add wifi-related packages
 PRODUCT_PACKAGES += libwpa_client wpa_supplicant hostapd wificond
@@ -78,6 +73,7 @@ PRODUCT_PACKAGES += \
 	vndk_package \
 
 DEVICE_MANIFEST_FILE := $(LOCAL_PATH)/manifest.xml
+
 PRODUCT_CHARACTERISTICS := tablet
 
 PRODUCT_PROPERTY_OVERRIDES += \

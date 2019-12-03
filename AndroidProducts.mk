@@ -1,18 +1,12 @@
-#
-# Copyright (C) 2012 The CyanogenMod Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/lineage_n8000.mk
+	$(LOCAL_DIR)/n8000.mk \
+	$(LOCAL_DIR)/n8010.mk \
+	$(LOCAL_DIR)/n8013.mk \
+	$(LOCAL_DIR)/n8020.mk
+
+
+COMMON_LUNCH_CHOICES := \
+    n8000-userdebug \
+	n8010-userdebug \
+	n8013-userdebug \
+	n8020-userdebug

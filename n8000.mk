@@ -1,12 +1,7 @@
-# Inherit from the common Open Source product configuration
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product, device/samsung/n8000/device-common.mk)
 
-# Inherit some common stuff.
-$(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
-
-# Device identifier. This must come after all inclusions
-PRODUCT_NAME := lineage_n8000
+PRODUCT_NAME := n8000
 PRODUCT_DEVICE := n8000
-PRODUCT_BRAND := samsung
 PRODUCT_MODEL := GT-N8000
-PRODUCT_MANUFACTURER := samsung
+
+PRODUCT_RELEASE_NAME := n8000

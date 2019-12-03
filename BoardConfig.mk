@@ -1,20 +1,4 @@
-#
-# Copyright (C) 2012 The CyanogenMod Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-LOCAL_PATH := device/samsung/midas
+LOCAL_PATH := device/samsung/n8000
 
 # Architecture
 TARGET_ARCH := arm
@@ -28,38 +12,44 @@ ARCH_ARM_HAVE_NEON := true
 TARGET_USES_64_BIT_BINDER := true
 
 # Filesystem
-BOARD_NAND_PAGE_SIZE := 4096
-BOARD_NAND_SPARE_SIZE := 128
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1444888576
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12620578816
 BOARD_FLASH_BLOCK_SIZE := 2048
 TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USES_MKE2FS := true
 
 # we don't have a vendor partition, include everything in the system.img
 BOARD_USES_VENDORIMAGE := false
-TARGET_COPY_OUT_VENDOR := system
 
-
-# mkbootimg config
-SUPPORTED_BOARDS := n8000
-BOARD_CUSTOM_MKBOOTIMG = $(HOST_OUT_EXECUTABLES)/mkfitimage$(HOST_EXECUTABLE_SUFFIX)
-BOARD_MKBOOTIMG_ARGS = $(foreach dtb,$(strip $(SUPPORTED_BOARDS)),--dtb $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/arch/arm/boot/dts/exynos4412-$(dtb).dtb)
-
-# kernel config (see kernel.mk fiel for more info)
-TARGET_KERNEL_SOURCE := kernel/samsung/n8000
-TARGET_KERNEL_CONFIG := n8000_defconfig
+# kernel config
+TARGET_NO_KERNEL := false 
 
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_CMDLINE := console=ttySAC2,115200 androidboot.hardware=n8000 androidboot.selinux=permissive printk.devkmsg=on
 BOARD_KERNEL_PAGESIZE := 2048
-# BOARD_KERNEL_IMAGE_NAME := zImage
-# NEED_KERNEL_MODULE_ROOT := true
 
-# Mesa
-BOARD_GPU_DRIVERS := exynos lima swrast
+##############
+# boot image #
+##############
+BOARD_KERNEL_TAGS_OFFSET 	:= 0x00000100
+BOARD_KERNEL_OFFSET			:= 0x00008000
+BOARD_RAMDISK_OFFSET     	:= 0x02000000
+# version 0 means that the device launched before android 9
+BOARD_BOOT_HEADER_VERSION 	:= 0
+
+BOARD_MKBOOTIMG_ARGS := --kernel_offset $(BOARD_KERNEL_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
+
+# graphics
+BOARD_GPU_DRIVERS := lima swrast
 TARGET_SCREEN_DENSITY := 160
+USE_OPENGL_RENDERER := true
+TARGET_HARDWARE_3D := true
+TARGET_USES_HWC2 := true
 
 # generic wifi
 WPA_SUPPLICANT_VERSION := VER_0_8_X
