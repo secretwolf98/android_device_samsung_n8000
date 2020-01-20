@@ -21,5 +21,5 @@ PRODUCT_MANUFACTURER := samsung
 PRODUCT_BUILD_PROP_OVERRIDES += \
 	PRODUCT_NAME=p4noterfxx \
 	TARGET_DEVICE=p4noterf \
-	BUILD_FINGERPRINT="lineage/p4noterfxx/p4noterf:7.1.2/NJH47F/944259602e:userdebug/test-keys" \
-	PRIVATE_BUILD_DESC="p4noterfxx-userdebug 7.1.2 NJH47F 944259602e test-keys"
+	BUILD_FINGERPRINT="LineageOS/${PRODUCT_BRAND}/${PRODUCT_DEVICE}_${PRODUCT_MODEL}/${PRODUCT_DEVICE}:${PLATFORM_VERSION}/${BUILD_ID}/:userdebug/release-keys" \
+	PRIVATE_BUILD_DESC="n8000-userdebug 7.1.2 NJH47F 4d1b8e493a test-keys"
